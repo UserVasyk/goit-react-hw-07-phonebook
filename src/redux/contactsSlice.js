@@ -1,8 +1,5 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-
-import storage from 'redux-persist/lib/storage';
-
+import { fetchContacts } from './operations';
 const contactsInitial = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -11,25 +8,30 @@ const contactsInitial = [
 ];
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: contactsInitial,
+  initialState: {
+    items: contactsInitial,
+    isLoading: false,
+    error: null,
+  },
   reducers: {
-    addContact(state, action) {
-      state.push(action.payload);
-    },
-    deleteContact(state, action) {
-      const index = state.findIndex(task => task.id === action.payload);
-      state.splice(index, 1);
+    // addContact(state, action) {
+    //   state.push(action.payload);
+    // },
+    // deleteContact(state, action) {
+    //   const index = state.findIndex(task => task.id === action.payload);
+    //   state.splice(index, 1);
+    // },
+  },
+  extraReducers: {
+    [fetchContacts.fulfilled](state, action) {
+      console.log(state);
+      console.log(action);
     },
   },
 });
 
-const reducerSlice = combineReducers({
+export const reducerSlice = combineReducers({
   contacts: contactsSlice.reducer,
 });
-const persistConfig = {
-  key: 'contacts',
-  storage,
-};
 
-export const contactsReducer = persistReducer(persistConfig, reducerSlice);
 export const { addContact, deleteContact } = contactsSlice.actions;
