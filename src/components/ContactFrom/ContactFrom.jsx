@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/operations';
-
+import { getContacts } from 'redux/selectors';
 import { FieldInput, FormBox, ButtonSubmit, Label } from './ContactForm.styled';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-  const contacts = useSelector(({ contacts }) => contacts.items);
+  const contacts = useSelector(getContacts);
 
   const onHandleSubmit = evt => {
     evt.preventDefault();

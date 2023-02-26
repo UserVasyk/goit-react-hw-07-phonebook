@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { nanoid } from 'nanoid';
 axios.defaults.baseURL = 'https://63f9b42fbeec322c57e67b09.mockapi.io/contacts';
 
 export async function fetchContacts() {
@@ -8,14 +8,17 @@ export async function fetchContacts() {
   return data;
 }
 export async function addContact({ name, number }) {
-  console.log('number: ', number);
-  console.log('gg: ', name);
   const { data } = await axios.post('/contacts', {
-    createdAt: '123456432324565432',
-    name: 'VASYL!!!!!!!!!!!!!!!',
-    phone: '1-947-522-1101',
-    id: '5',
+    createdAt: new Date(),
+    name,
+    phone: number,
+    id: nanoid(),
   });
   console.log('adding contact');
+  return data;
+}
+export async function deleteContact(contactId) {
+  const { data } = await axios.delete(`/contacts/${contactId}`);
+  console.log('deleting contact');
   return data;
 }
